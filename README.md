@@ -12,7 +12,7 @@ git clone -b <branchname> --single-branch https://github.com/mathworks/developer
 For example:
 
 ```
-git clone -b 20205-Advanced-CI-Examples --single-branch https://github.com/mathworks/developer-zone-blog
+git clone -b 2025-Advanced-CI-Examples --single-branch https://github.com/mathworks/developer-zone-blog
 ```
 
 Alternatively, you can simply clone the entire repository and use the branch
