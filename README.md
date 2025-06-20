@@ -27,3 +27,5 @@ The license is available in the License.txt file in this GitHub repository.
 ### Community Support
 
 [MATLAB Central](https://www.mathworks.com/matlabcentral)
+
+&copy; 2025, The MathWorks, Inc.
