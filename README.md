@@ -1,5 +1,6 @@
 # Developer Zone Blog 
-This repository contains files associated with the [Developer Zone](https://blogs.mathworks.com/developer/) blog.
+This repository contains files associated with the [Developer Zone](https://blogs.mathworks.com/developer/) blog, 
+where we discuss a variety of topics centered around professional software development workflows with MATLAB.
 
 Each blog post is a branch of this repository. Each branch contains content 
 relevant to the blog post and is included for readers to reproduce the 
