@@ -1,4 +1,8 @@
 %% 
+% Welcome back! As promised, I am here to kick things off with Part 1 of our
+% <https://blogs.mathworks.com/developer/2025/07/02/test-impact-analysis-intro/
+% blog series> on impact-based test selection.
+%
 % Imagine you are developing an application and writing code in your MATLAB
 % development environment.
 % 
@@ -30,8 +34,13 @@
 % one ought to keep in mind. 
 % 
 %% Example: Testing a Simple Perceptron
-% While impact-based testing shines brightest in large projects, let's take
-% a simple example to see how it works in practice. Our example here is a simple neural network,
+% 
+% If you want to follow along or reproduce the content of this post later,
+% you can access the code at <https://github.com/mathworks/developer-zone-blog/tree/2025-Test-Impact-Analysis-Find-Tests Developer Zone Blog GitHub repo>.
+% 
+% While impact-based testing shines
+% brightest in large projects, let's take a simple example to see how it
+% works in practice. Our example here is a simple neural network,
 % <https://www.codecademy.com/learn/perceptrons-and-neural-nets-skill-path/modules/perceptrons-skill-path/cheatsheet
 % perceptron> , that creates a binary linear classification model that
 % simulates the task of decision making. You don't need to fully understand
