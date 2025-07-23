@@ -1,0 +1,530 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>y2025IncrementalTest_TestManager</title>
+<meta name="generator" content="MATLAB 25.1">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2025-07-23">
+<meta name="DC.source" content="y2025IncrementalTest_TestManager.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<h1></h1>
+<!--introduction-->
+<p>In <a href="https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/">Part 1</a>, we looked at how the <a href="https://www.mathworks.com/help/matlab-test/ug/find-tests-that-depend-on-files.html#mw_bb1343da-2b30-4bd8-9444-b7b37f93ba05">Find Tests</a> button in the MATLAB Toolstrip can streamline your workflow by surfacing the relevant tests for the MATLAB file you are currently editing. While that approach works great for making changes to a single file, as development progresses and you prepare to commit a batch of changes, your focus shifts from a single file towards ensuring the integrity of those whole commits. And, a quick feedback loop is key to enabling frequent and high-quality commits before pushing to your remote branch.</p>
+<p>Starting in R2025a, the <a href="https://www.mathworks.com/help/matlab-test/ref/matlabtestmanager-app.html">MATLAB Test Manager</a> app helps you do just that. It lets you manage a test suite that automatically detects which tests are <a href="https://www.mathworks.com/help/matlab-test/ug/qualify-changes-by-finding-and-running-impacted-tests.html">impacted by changes</a> since your last source control commit. This means you can avoid running the full (potentially time-consuming) test suite, while still catching any regressions early.</p>
+<p>Let's look at how that works in practice.</p>
+<p>We'll take the same example from Part 1: A Simple AND Perceptron</p>
+<p>
+<img vspace="5" hspace="5" src="example-2.png" alt=""> </p>
+<p>Before we dive into the example, let me take a quick moment to highlight something that is also new in MATLAB R2025a - the Source Control side panel.</p>
+<p>
+<img vspace="5" hspace="5" src="source_control_panel.png" alt=""> </p>
+<p>This new panel, easily accessible off the sidebar, automatically detects source control folders you are actively working on. That means you can quickly get oriented without needing to dig through menus. As you make changes, it gives your a clear view of modified and untracked files, and let's you make source control actions right from the panel. You can also jump into the <b>Branch Manager</b> from there to manage your branches with ease. Wanna know more? Check out <a href="https://www.mathworks.com/help/matlab/matlab_prog/about-mathworks-source-control-integration.html">Source Control Integration in MATLAB documentation</a>.</p>
+<p>
+<b>Note:</b> Source Control integration in MATLAB supports both Git and SVN systems, but for the purposes of this post, I'll be using Git.</p>
+<p>Alright, back to our example...</p>
+<!--/introduction-->
+<h2>Contents</h2>
+<div>
+<ul>
+<li>
+<a href="#1">Goal: Enhancing the Perceptron to Use Bias as a Parameter</a>
+</li>
+<li>
+<a href="#2">Solution: Trainable Bias Term</a>
+</li>
+<li>
+<a href="#3">Utilizing MATLAB Test Manager to find and run impacted tests</a>
+</li>
+<li>
+<a href="#4">What's Next...</a>
+</li>
+</ul>
+</div>
+<h2 id="1">Goal: Enhancing the Perceptron to Use Bias as a Parameter</h2>
+<p>
+<b>Tip:</b> You can access the supporting files for this post in the developer-zone-blog GitHub repository. The <tt>before</tt> folder contains the original code to reproduce the steps outlined in this blog, while the <tt>after</tt> folder includes the final version of the code.</p>
+<p>In the <a href="https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/">previous post</a>, we explored how the perceptron model classifies data by calculating a weighted sum of inputs and applying a threshold function. This approach utilizes a fixed bias term to adjust the decision boundary.</p>
+<p>In that implementation, the bias term is set to a constant value of 1, as shown below:</p>
+<pre class="language-matlab">
+<span class="keyword">function</span> output = calculateWeightedSum(weights, inputs)
+<span class="comment">% Compute the weighted sum</span>
+total_input = sum(weights .* [inputs, 1]);
+
+<span class="comment">% Activation logic</span>
+<span class="keyword">if</span> total_input &gt; 0 <span class="comment">% step function threshold; activate if weighted sum is positive</span>
+    output = 1;
+<span class="keyword">else</span>
+    output = 0;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+</pre>
+<p>This fixed bias term simplifies the model but limits its adaptability.</p>
+<h2 id="2">Solution: Trainable Bias Term</h2>
+<p>To improve the model's flexibility and potentially enhance its performance, we propose modifying the bias term to be trainable. This adjustment allows the bias to be learned alongside the weights during training, enabling the model to better fit the data. The updated code should represent the following equation:</p>
+<p>
+<img src="y2025IncrementalTest_TestManager_eq08221774276490851988.png" alt="$z = w * x + b$"></p>
+<p>where <tt>b</tt> is now a learnable bias parameter.</p>
+<p>Let's explore how the MATLAB Test Manager can facilitate efficient implementation of this change through impact-based testing.</p>
+<h2 id="3">Utilizing MATLAB Test Manager to find and run impacted tests</h2>
+<p>We'll begin by examining what tests the test manager identifies before make we make any changes. When you select <b>All Tests in Current Project</b> , it finds, well, all the tests in your MATLAB Project.</p>
+<p>
+<img vspace="5" hspace="5" src="all_tests_in_current_project_before.png" alt=""> </p>
+<p>In R2025a, the app introduced a new option named <b>Impacted Tests Since Last Commit</b>. Initially, with no changes made, selecting <b>Impacted Tests Since Last Commit</b> reveals no affected tests, confirming that our codebase is unchanged.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_menu_option.png" alt=""> </p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_before.png" alt=""> </p>
+<p>The Source Control panel agrees!</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_source_control_panel_before.png" alt=""> </p>
+<p>So, let's get to work and start making the changes. We begin by creating a new branch <tt>feature/bias</tt> using <b>Source Control &gt; Branch Manager</b>
+</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_branch_creation.png" alt=""> </p>
+<p>
+<img vspace="5" hspace="5" src="git_repo_current_branch.png" alt=""> </p>
+<p>Looks like we are in a good source control state here &ndash; right branch for the change.</p>
+<p>To turn <i>bias</i> into a model parameter, we need to modify the functions that initialize the weights and calculate the weighted sum.</p>
+<p>
+<b>initializeWeights.m</b>
+</p>
+<p><u>Before:</u></p>
+<pre class="language-matlab">
+<span class="keyword">function</span> weights = initializeWeights()
+<span class="comment">% Initialize weights randomly for two inputs and one bias</span>
+weights = rand(1, 3) * 0.5;
+<span class="keyword">end</span>
+
+</pre>
+<p><u>After:</u></p>
+<pre class="language-matlab">
+<span class="keyword">function</span> [weights, bias] = initializeWeights(numInputs)
+<span class="comment">% Initialize weights and bias randomly</span>
+weights = rand(1, numInputs);  <span class="comment">% Random weights for each input</span>
+bias = rand() - 0.5;  <span class="comment">% Bias initialized to a small random value between -0.5 and 0.5</span>
+<span class="keyword">end</span>
+
+</pre>
+<p>
+<b>calculateWeightedSum.m</b>
+</p>
+<p><u>Before:</u></p>
+<pre class="language-matlab">
+<span class="keyword">function</span> output = calculateWeightedSum(weights, inputs)
+<span class="comment">% Compute the weighted sum</span>
+total_input = sum(weights .* [inputs, 1]);
+
+<span class="comment">% Activation logic</span>
+<span class="keyword">if</span> total_input &gt; 0 <span class="comment">% step function threshold; activate if weighted sum is positive</span>
+    output = 1;
+<span class="keyword">else</span>
+    output = 0;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+</pre>
+<p><u>After:</u></p>
+<pre class="language-matlab">
+<span class="keyword">function</span> output = calculateWeightedSum(weights, bias, inputs)
+<span class="comment">% Compute the weighted sum</span>
+total_input = sum(weights .* inputs) + bias;
+
+<span class="comment">% Activation logic</span>
+<span class="keyword">if</span> total_input &gt; 0 <span class="comment">% step function threshold; activate if weighted sum is positive</span>
+    output = 1;
+<span class="keyword">else</span>
+    output = 0;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+
+</pre>
+<p>OK, we made the desired changes. With those changes implemented, we'll now rely on MATLAB Test Manager to identify and run only the tests impacted by our modifications. This targeted testing approach helps maintain efficiency and ensures that we address any regressions introduced by the changes.</p>
+<p>Let's select <b>Impacted Tests Since Last Commit</b> in the test manager to identify the relevant tests.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_first_changeset_after.png" alt=""> </p>
+<pre>The Test Manager detected 4 impacted tests. Let's run them&hellip;</pre>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_first_changeset_failures_after.png" alt=""> </p>
+<p>Uh-oh! All tests have failed.</p>
+<p>Thankfully, failure diagnostics are provided alongside the results, offering helpful insights for troubleshooting.</p>
+<p>
+<img vspace="5" hspace="5" src="initializeWeights_failure.png" alt=""> </p>
+<p>Ah, right! We modified the function signatures of <tt>initializeWeights.m</tt> and <tt>calculateWeightedSum.m</tt>. Let's address this.</p>
+<p>The first two failures are straightforward &ndash; they simply require us to update the tests corresponding to those two modified functions.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_source_control_partial_fixes.png" alt=""> </p>
+<p>We re-run the tests in the MATLAB Test Manager.</p>
+<p>
+<img vspace="5" hspace="5" src="two_pass_two_failures.png" alt=""> </p>
+<p>Progress! The first two tests now pass. However, we still have two failures remaining.</p>
+<p>Upon closer inspection, it seems the remaining issues are related to other source files, such as <tt>trainPerceptron.m</tt> and <tt>predict.m</tt>. These need to be updated to account for the new trainable bias parameter and ensure it is trained alongside the weights.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_source_control_all_fixes.png" alt=""> </p>
+<p>OK, we have updated those functions and their corresponding tests as well to address the regression and ensure we have a cohesive set of changes. We'll click <b>Refresh tests</b> in the test manager to get an updated list of impacted tests.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_refresh.png" alt=""> </p>
+<p>Good news - there are no additional impacted tests. The tests identified earlier are already covering the newly updated source files.</p>
+<p>
+<img vspace="5" hspace="5" src="impacted_tests_passing_after.png" alt=""> </p>
+<p>Great! All tests are passing now, giving us confidence that the changes are compatible with the rest of the codebase.</p>
+<p>Ideally, we would add new tests to specifically target the new functionality. Even better, we could start with those new tests to drive our implementation. Depending on the complexity of the application we might also consider performing ad-hoc testing to further bolster the rigor of our qualification and ensure full confidence in the changes.</p>
+<p>The test manager supports you throughout this process by automatically identifying and running only the tests impacted by the changes in each development iteration. Much like the <b>Find Tests</b> feature we discussed in <a href="https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/">Part 1</a>, <b>Impacted Tests Since Last Commit</b> also leverages dependency analysis to find impacted tests.</p>
+<p>An additional feature I find particularly useful in the test manager is its ability to track the history of test runs. This allows you to review previous test results, providing valuable insights as you iterate through your development process.</p>
+<p>
+<img vspace="5" hspace="5" src="mtm_test_run_history.png" alt=""> </p>
+<p>Once we've validated our changes, we can commit them using the Source Control panel:</p>
+<p>
+<img vspace="5" hspace="5" src="commit_changes.png" alt=""> </p>
+<p>We now have a new commit</p>
+<p>
+<img vspace="5" hspace="5" src="updated_repo_commit.png" alt=""> </p>
+<p>After committing, the test manager indicates that no tests have been impacted since the last commit. That makes sense!</p>
+<p>
+<img vspace="5" hspace="5" src="mtm_no_impacted_tests.png" alt=""> </p>
+<p>If further development is needed for the feature, we continue to implement changes in manageable increments and commit frequently. This approach ensures the integrity of each commit while leveraging the test impact analysis capability for efficient qualification.</p>
+<p>
+<i>Would you consider adopting this capability in your workflow? Are there any aspects of test impact analysis or the workflow itself that we could improve to facilitate a more seamless development cycle for you? We welcome your thoughts in the comments below!</i>
+</p>
+<h2 id="4">What's Next...</h2>
+<p>So far, we have conducted cycles of interactive testing using the Find Tests button and MATLAB Test Manager capabilities. Our next step will be to explore how the MATLAB build tool can help automate and further enhance your development workflow. We'll specifically examine how it can leverage the same foundational test impact analysis capability to enable incremental testing and faster local automated builds as part of our pre-qualification process.</p>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2025a</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+%%
+% In
+% <https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/
+% Part 1>, we looked at how the
+% <https://www.mathworks.com/help/matlab-test/ug/find-tests-that-depend-on-files.html#mw_bb1343da-2b30-4bd8-9444-b7b37f93ba05
+% Find Tests> button in the MATLAB Toolstrip can streamline your workflow
+% by surfacing the relevant tests for the MATLAB file you are currently
+% editing. While that approach works great for making changes to a single
+% file, as development progresses and you prepare to commit a batch of
+% changes, your focus shifts from a single file towards ensuring the
+% integrity of those whole commits. And, a quick feedback loop is key to
+% enabling frequent and high-quality commits before pushing to your remote
+% branch.
+%
+% Starting in R2025a, the
+% <https://www.mathworks.com/help/matlab-test/ref/matlabtestmanager-app.html
+% MATLAB Test Manager> app helps you do just that. It lets you manage a
+% test suite that automatically detects which tests are
+% <https://www.mathworks.com/help/matlab-test/ug/qualify-changes-by-finding-and-running-impacted-tests.html
+% impacted by changes> since your last source control commit. This means
+% you can avoid running the full (potentially time-consuming) test suite,
+% while still catching any regressions early.
+% 
+% Let's look at how that works in practice.
+%
+% We'll take the same example from Part 1: A Simple AND Perceptron
+%
+% <<example-2.png>>
+% 
+% Before we dive into the example, let me take a quick moment to highlight something
+% that is also new in MATLAB R2025a - the Source Control side panel.
+% 
+% <<source_control_panel.png>>
+% 
+% This new panel, easily accessible off the sidebar, automatically detects
+% source control folders you are actively working on. That means you can
+% quickly get oriented without needing to dig through menus. As you make
+% changes, it gives your a clear view of modified and untracked files, and
+% let's you make source control actions right from the panel. You can also
+% jump into the *Branch Manager* from there to manage your branches with
+% ease. Wanna know more? Check out
+% <https://www.mathworks.com/help/matlab/matlab_prog/about-mathworks-source-control-integration.html
+% Source Control Integration in MATLAB documentation>.
+%
+% *Note:* Source Control integration in MATLAB supports both Git and SVN
+% systems, but for the purposes of this post, I'll be using Git.
+%
+% Alright, back to our example...
+%
+%% Goal: Enhancing the Perceptron to Use Bias as a Parameter
+% 
+% *Tip:* 
+% You can access the supporting files for this post in the
+% developer-zone-blog GitHub repository. The |before| folder contains the
+% original code to reproduce the steps outlined in this blog, while the
+% |after| folder includes the final version of the code.
+% 
+% In the
+% <https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/
+% previous post>, we explored how the perceptron model classifies data by
+% calculating a weighted sum of inputs and applying a threshold function.
+% This approach utilizes a fixed bias term to adjust the decision boundary.
+%
+% In that implementation, the bias term is set to a constant value of 1, as
+% shown below:
+%
+% <include>before/toolbox/calculateWeightedSum.m</include>
+%
+% This fixed bias term simplifies the model but limits its adaptability.
+% 
+%% Solution: Trainable Bias Term
+% To improve the model's flexibility and potentially enhance its
+% performance, we propose modifying the bias term to be trainable. This
+% adjustment allows the bias to be learned alongside the weights during
+% training, enabling the model to better fit the data. The updated code
+% should represent the following equation:
+%
+% $z = w * x + b$ 
+% 
+% where |b| is now a learnable bias parameter.
+% 
+% Let's explore how the MATLAB Test Manager can facilitate efficient
+% implementation of this change through impact-based testing.
+%
+%% Utilizing MATLAB Test Manager to find and run impacted tests 
+% 
+% We'll begin by examining what tests the test manager identifies before
+% make we make any changes. When you select *All Tests in Current Project* , it
+% finds, well, all the tests in your MATLAB Project.
+%
+% <<all_tests_in_current_project_before.png>>
+%
+% In R2025a, the app introduced a new option named *Impacted Tests Since
+% Last Commit*. Initially, with no changes made, selecting *Impacted Tests
+% Since Last Commit* reveals no affected tests, confirming that our
+% codebase is unchanged.
+%
+% <<impacted_tests_menu_option.png>>
+%
+% <<impacted_tests_before.png>>
+%
+% The Source Control panel agrees!
+%
+% <<impacted_tests_source_control_panel_before.png>>
+%
+% So, let's get to work and start making the changes. We begin by creating
+% a new branch |feature/bias| using *Source Control > Branch Manager*
+%
+% <<impacted_tests_branch_creation.png>>
+%
+% <<git_repo_current_branch.png>>
+%
+% Looks like we are in a good source control state here – right branch for
+% the change.
+%
+% To turn _bias_ into a model parameter, we need to modify the functions that
+% initialize the weights and calculate the weighted sum.
+%
+% 
+% *initializeWeights.m*
+% 
+% <html><u>Before:</u></html>
+% 
+% <include>before/toolbox/initializeWeights.m</include>
+% 
+% <html><u>After:</u></html>
+% 
+% <include>after/toolbox/initializeWeights.m</include>
+% 
+% *calculateWeightedSum.m* 
+% 
+% <html><u>Before:</u></html>
+%
+% <include>before/toolbox/calculateWeightedSum.m</include>
+% 
+% <html><u>After:</u></html>
+% 
+% <include>after/toolbox/calculateWeightedSum.m</include>
+%
+% OK, we made the desired changes. With those changes implemented, we'll
+% now rely on MATLAB Test Manager to identify and run only the tests
+% impacted by our modifications. This targeted testing approach helps
+% maintain efficiency and ensures that we address any regressions
+% introduced by the changes.
+%
+% Let's select *Impacted Tests Since Last Commit* 
+% in the test manager to identify the relevant tests.
+%
+% <<impacted_tests_first_changeset_after.png>>
+%
+%  The Test Manager detected 4 impacted tests. Let's run them…
+%
+% <<impacted_tests_first_changeset_failures_after.png>>
+%
+% Uh-oh! All tests have failed. 
+% 
+% Thankfully, failure diagnostics are provided alongside the results,
+% offering helpful insights for troubleshooting.
+%
+% <<initializeWeights_failure.png>>
+%
+% Ah, right! We modified the function signatures of |initializeWeights.m| and
+% |calculateWeightedSum.m|. Let's address this. 
+% 
+% The first two failures are straightforward – they simply require us to
+% update the tests corresponding to those two modified functions.
+%
+% <<impacted_tests_source_control_partial_fixes.png>>
+%
+% We re-run the tests in the MATLAB Test Manager.
+%
+% <<two_pass_two_failures.png>>
+%
+% Progress! The first two tests now pass. However, we still have two
+% failures remaining. 
+% 
+% Upon closer inspection, it seems the remaining issues are related to
+% other source files, such as |trainPerceptron.m| and |predict.m|. These
+% need to be updated to account for the new trainable bias parameter and
+% ensure it is trained alongside the weights.
+%
+% <<impacted_tests_source_control_all_fixes.png>>
+%
+% OK, we have updated those functions and their corresponding tests as well
+% to address the regression and ensure we have a cohesive set of changes. 
+% We'll click *Refresh tests* in the test manager to get an updated list of
+% impacted tests. 
+% 
+% <<impacted_tests_refresh.png>>
+%
+% Good news - there are no additional impacted tests. The tests identified
+% earlier are already covering the newly updated source files. 
+%
+% <<impacted_tests_passing_after.png>>
+%
+% Great! All tests are passing now, giving us confidence that the changes
+% are compatible with the rest of the codebase.
+%
+% Ideally, we would add new tests to specifically target the new
+% functionality. Even better, we could start with those new tests to drive
+% our implementation. Depending on the complexity of the application we
+% might also consider performing ad-hoc testing to further bolster the
+% rigor of our qualification and ensure full confidence in the changes. 
+% 
+% The test manager supports you throughout this process by automatically
+% identifying and running only the tests impacted by the changes in each
+% development iteration. Much like the *Find Tests* feature we discussed in
+% <https://blogs.mathworks.com/developer/2025/07/09/test-impact-analysis-find-tests/
+% Part 1>, *Impacted Tests Since Last Commit* also leverages dependency
+% analysis to find impacted tests.
+%
+% An additional feature I find particularly useful in the test manager is
+% its ability to track the history of test runs. This allows you to review
+% previous test results, providing valuable insights as you iterate through
+% your development process.
+%
+% <<mtm_test_run_history.png>>
+%
+% Once we've validated our changes, we can commit them using the Source
+% Control panel:
+%
+% <<commit_changes.png>>
+%
+% We now have a new commit
+%
+% <<updated_repo_commit.png>>
+%
+% After committing, the test manager indicates that no tests have been
+% impacted since the last commit. That makes sense!
+%
+% <<mtm_no_impacted_tests.png>>
+%
+% If further development is needed for the feature, we continue to
+% implement changes in manageable increments and commit  frequently. This
+% approach ensures the integrity of each commit while leveraging the test
+% impact analysis capability for efficient qualification.
+%
+% _Would you consider adopting this capability in your workflow? Are there
+% any aspects of test impact analysis or the workflow itself that we could
+% improve to facilitate a more seamless development cycle for you? We
+% welcome your thoughts in the comments below!_
+%
+%% What's Next...
+% 
+% So far, we have conducted cycles of interactive testing using the Find
+% Tests   button and MATLAB Test Manager capabilities. Our  next step will
+% be  to explore how the MATLAB  build tool can help automate and further
+% enhance your development workflow. We'll specifically examine how it can
+% leverage the same foundational test impact analysis capability to enable
+% incremental testing and faster local automated builds as part of our
+% pre-qualification process.
+
+
+
+
+
+
+
+
+##### SOURCE END #####
+-->
+</body>
+</html>
